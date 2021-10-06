@@ -3,7 +3,7 @@ function submit(){
     var username = form["username"];
 
     let x = document.forms["myForm"]["username"].value;
-    if(x == "") {
+    if(x === "a") {
         alert("testing");
         return false;
     }
