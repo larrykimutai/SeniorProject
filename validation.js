@@ -1,11 +1,15 @@
+
+
 function submit(){
+    let x = Boolean(true);
+
     let username = document.forms["myForm"]["username"].value;
 
     document.getElementById("output").innerHTML = "";
     //check if username is not too long or too short
 
     if(username.length < 4 || username.length > 12){
-
+        x = false;
 
         if(username.length < 4) {
             if(!username){document.getElementById("output").innerHTML
@@ -21,6 +25,7 @@ function submit(){
 
     //check if username contains uppercase
     if(username.toLowerCase() != username){
+        x = false;
         if(!username){document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: red;'>Username</span><br><br>";
         }else document.getElementById("output").innerHTML
@@ -30,6 +35,7 @@ function submit(){
     //check if username contains other non-digit or non-alphabetic characteres are included
     let numlett = /^[0-9a-zA-Z]+$/;
     if(!(username.match(numlett))){
+        x = false;
         if(!username){document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "";
         }else document.getElementById("output").innerHTML
@@ -40,14 +46,17 @@ function submit(){
 
     //check if email contains '@'
     if(!email){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: red;'>Email</span><br><br>";
     }
     if(email && !(email.includes("@"))){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Valid email (@)</span><br><br>";
     }if(email && !((email.includes(".com",(email.length - 4))) ||  (email.includes(".org",(email.length - 4))) ||
         (email.includes(".edu",(email.length - 4)))  ||  (email.includes(".net",(email.length - 4))) || (email.includes(".gov",(email.length - 4))) )){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Valid email (.com/.org.edu/.net/.gov)</span><br><br>";
     }
@@ -55,20 +64,24 @@ function submit(){
     //check if phone number is 10 digits
     let number = document.forms["myForm"]["phone"].value;
     if(!number){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: red;'>Phone Number</span><br><br>";
     }
     if(number && (!(number.includes('(',0)) || !(number.includes(')',4)) || !(number.includes('-',5)) || !(number.includes('-',9))) ){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Valid phone number (000)-000-0000 </span><br><br>";
     }
     if(number && (number.length > 14 || number.length < 14)){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Valid phone number</span><br><br>";
     }
     let lett = /[a-zA-Z]/g;
     let pass = new RegExp(/[~`!#$%\^&*+=[\]\\';,/{}|\\":<>\?]/);
     if(number && (number.match(lett) || number.match(pass))){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Valid phone number with only digits</span><br><br>";
     }
@@ -79,11 +92,13 @@ function submit(){
     let confPassword = document.forms["myForm"]["confPassword"].value;
 
     if(!password){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: red;'>Password</span><br><br>";
     }
 
     if(password && password.length < 8){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML +"Please Enter <span style='color: orange;'>Password with more than 8 characters</span><br><br>";
     }
@@ -93,25 +108,31 @@ function submit(){
     let pasLow = new RegExp(/[a-z]/);
     let pasNum = new RegExp(/[0-9]/)
     if(password && !pas.test(password)){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Password with at least one special character</span><br><br>";
     }if(password && !pasUp.test(password)){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Password with at least one uppercase letter</span><br><br>";
     }if(password && !pasLow.test(password)){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Password with at least one lowercase letter</span><br><br>";
     }if(password && !pasNum.test(password)){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Enter <span style='color: orange;'>Password with at least one number</span><br><br>";
     }
 
     //validate confirm password field
     if(password && !confPassword){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please<span style='color: red;'>Confirm Password</span><br><br>";
     }
     if((password && confPassword) && !(confPassword === password)){
+        x = false;
         alert("PASSWORDS DO NOT MATCH!");
     }
 
@@ -120,6 +141,7 @@ function submit(){
     let gender = document.forms["myForm"]["gender"].value;
 
     if(!gender){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Select <span style='color: red;'>Gender</span><br><br>";
     }
@@ -128,17 +150,26 @@ function submit(){
     let age = document.forms["myForm"]["ageGroup"].value;
 
     if(!age){
+        x = false;
         document.getElementById("output").innerHTML
             = document.getElementById("output").innerHTML + "Please Select <span style='color: red;'>Age Group</span><br><br>";
     }
+
+    if(x){window.location.href = "./index.html"};
 
 
 }
 
 
 
-function clear(){
+function clean(){
+
+
     let username = document.forms["myForm"]["username"].value;
 
     document.getElementById("output").innerHTML = "";
+
+    $("#reB").click(function(){
+        $("input, form").val("");
+    });
 }
