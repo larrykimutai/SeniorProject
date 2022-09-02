@@ -155,7 +155,7 @@ function submit(){
             = document.getElementById("output").innerHTML + "Please Select <span style='color: red;'>Age Group</span><br><br>";
     }
 
-    if(x){window.location.href = "./index.html"};
+    if(x){window.location.href = "../index.html"};
 
 
 }
