@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\Larry\\Desktop\\School\\Fall 2022\\COMP 496 (Sen Pro)\\Project\\contracts\\HelloWorld.sol": {
+      "lastModificationDate": 1661803462033,
+      "contentHash": "008aa3a92a298abb8759f164ca4c1767",
+      "sourceName": "contracts/HelloWorld.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.8.9"
+      ],
+      "artifacts": [
+        "HelloWorld"
+      ]
+    }
+  }
+}

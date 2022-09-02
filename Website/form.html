@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+    <script src="validation.js"></script>
+</head>
+<body>
+<div>
+<form name="myForm" id="fill">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;Username:
+    <input type="text" name="username" placeholder="Username">
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email:
+    <input type="text" name="email" placeholder="exmaple@mail.com">
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phone Number:
+    <input type="text" name="phone" placeholder="(000)-000-0000">
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter Password:
+    <input type="password" name="password" placeholder="*********">
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;Confirm Password:
+    <input type="password" name="confPassword" placeholder="*********">
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gender:
+    <input type="radio" name="gender" id="male" value="Male">
+    <label for="male">Male</label>
+
+    <input type="radio" name="gender" id="female" value="Female">
+    <label for="female">Female</label>
+
+    <input type="radio" name="gender" id="other" value="Other">
+    <label for="other">Other</label>
+    <br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;Age Group:
+    <select name="ageGroup" size="1">
+        <option value=""></option>
+        <option value="21">< 21 years old</option>
+        <option value="2125">21 - 25 years old</option>
+        <option value="2635">26 - 35 years old</option>
+        <option value="3650">36 - 50 years old</option>
+        <option value="50">< 50 years old</option>
+    </select>
+    <br><br>
+
+    Favorite Music Genre:
+    <input type="checkbox" name="music" value="pop">Pop&nbsp;&nbsp;
+    <input type="checkbox" name="music" value="hiphop">Hiphop&nbsp;&nbsp;
+    <input type="checkbox" name="music" value="jazz">Jazz&nbsp;&nbsp;
+    <input type="checkbox" name="music" value="rock">Rock&nbsp;&nbsp;
+    <input type="checkbox" name="music" value="classicalMusic">Classical Music&nbsp;&nbsp;
+    <input type="checkbox" name="music" value="country">Country&nbsp;&nbsp;
+    <br><br>
+
+
+    <input type="reset" value="clear" id="reB" onclick="clean();">
+
+</form>
+
+    <input type="button" value="submit" onclick="submit();">
+<p id="output"></p>
+&nbsp;</div>
+</body>
+</html>
