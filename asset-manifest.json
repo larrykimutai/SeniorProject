@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/SeniorProject/static/css/main.b6aa98c8.chunk.css",
+    "main.js": "/SeniorProject/static/js/main.45053c83.chunk.js",
+    "main.js.map": "/SeniorProject/static/js/main.45053c83.chunk.js.map",
+    "runtime-main.js": "/SeniorProject/static/js/runtime-main.eaa66d9b.js",
+    "runtime-main.js.map": "/SeniorProject/static/js/runtime-main.eaa66d9b.js.map",
+    "static/js/2.ecca0118.chunk.js": "/SeniorProject/static/js/2.ecca0118.chunk.js",
+    "static/js/2.ecca0118.chunk.js.map": "/SeniorProject/static/js/2.ecca0118.chunk.js.map",
+    "static/js/3.2fe1de65.chunk.js": "/SeniorProject/static/js/3.2fe1de65.chunk.js",
+    "static/js/3.2fe1de65.chunk.js.map": "/SeniorProject/static/js/3.2fe1de65.chunk.js.map",
+    "index.html": "/SeniorProject/index.html",
+    "static/css/main.b6aa98c8.chunk.css.map": "/SeniorProject/static/css/main.b6aa98c8.chunk.css.map",
+    "static/js/2.ecca0118.chunk.js.LICENSE.txt": "/SeniorProject/static/js/2.ecca0118.chunk.js.LICENSE.txt",
+    "static/media/alchemylogo.9821dc1c.svg": "/SeniorProject/static/media/alchemylogo.9821dc1c.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.eaa66d9b.js",
+    "static/js/2.ecca0118.chunk.js",
+    "static/css/main.b6aa98c8.chunk.css",
+    "static/js/main.45053c83.chunk.js"
+  ]
+}
