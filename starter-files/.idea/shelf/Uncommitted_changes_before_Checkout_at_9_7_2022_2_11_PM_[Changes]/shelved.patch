@@ -1,0 +1,256 @@
+Index: src/HelloWorld.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from \"react\";\r\nimport { useEffect, useState } from \"react\";\r\nimport {\r\n  helloWorldContract,\r\n  connectWallet,\r\n  updateMessage,\r\n  loadCurrentMessage,\r\n  getCurrentWalletConnected,\r\n} from \"./util/interact.js\";\r\n\r\nimport alchemylogo from \"./alchemylogo.svg\";\r\n\r\nconst HelloWorld = () => {\r\n  //state variables\r\n  const [walletAddress, setWallet] = useState(\"\");\r\n  const [status, setStatus] = useState(\"\");\r\n  const [message, setMessage] = useState(\"No connection to the network.\"); //default message\r\n  const [newMessage, setNewMessage] = useState(\"\");\r\n\r\n  //called only once\r\n  useEffect(async () => {\r\n    \r\n  }, []);\r\n\r\n  function addSmartContractListener() { //TODO: implement\r\n    \r\n  }\r\n\r\n  function addWalletListener() { //TODO: implement\r\n    \r\n  }\r\n\r\n  const connectWalletPressed = async () => { //TODO: implement\r\n    \r\n  };\r\n\r\n  const onUpdatePressed = async () => { //TODO: implement\r\n    \r\n  };\r\n\r\n  //the UI of our component\r\n  return (\r\n    <div id=\"container\">\r\n      <img id=\"logo\" src={alchemylogo}></img>\r\n      <button id=\"walletButton\" onClick={connectWalletPressed}>\r\n        {walletAddress.length > 0 ? (\r\n          \"Connected: \" +\r\n          String(walletAddress).substring(0, 6) +\r\n          \"...\" +\r\n          String(walletAddress).substring(38)\r\n        ) : (\r\n          <span>Connect Wallet</span>\r\n        )}\r\n      </button>\r\n\r\n      <h2 style={{ paddingTop: \"50px\" }}>Current Message:</h2>\r\n      <p>{message}</p>\r\n\r\n      <h2 style={{ paddingTop: \"18px\" }}>New Message:</h2>\r\n\r\n      <div>\r\n        <input\r\n          type=\"text\"\r\n          placeholder=\"Update the message in your smart contract.\"\r\n          onChange={(e) => setNewMessage(e.target.value)}\r\n          value={newMessage}\r\n        />\r\n        <p id=\"status\">{status}</p>\r\n\r\n        <button id=\"publish\" onClick={onUpdatePressed}>\r\n          Update\r\n        </button>\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default HelloWorld;\r\n
+===================================================================
+diff --git a/src/HelloWorld.js b/src/HelloWorld.js
+--- a/src/HelloWorld.js	
++++ b/src/HelloWorld.js	
+@@ -19,23 +19,42 @@
+ 
+   //called only once
+   useEffect(async () => {
+-    
++    const message = await loadCurrentMessage();
++    setMessage(message);
++    addSmartContractListener();
++
++    const {address, status} = await getCurrentWalletConnected();
++    setWallet(address);
++    setStatus(status);
++
++    addWalletListener();
+   }, []);
+ 
+-  function addSmartContractListener() { //TODO: implement
+-    
++  function addSmartContractListener() {
++    helloWorldContract.events.UpdatedMessages({}, (error, data) => {
++      if (error) {
++        setStatus("😥 " + error.message);
++      } else {
++        setMessage(data.returnValues[1]);
++        setNewMessage("");
++        setStatus("🎉 Your message has been updated!");
++      }
++    });
+   }
+ 
+   function addWalletListener() { //TODO: implement
+     
+   }
+ 
+-  const connectWalletPressed = async () => { //TODO: implement
+-    
++  const connectWalletPressed = async () => {
++    const walletResponse = await connectWallet();
++    setStatus(walletResponse.status);
++    setWallet(walletResponse.address);
+   };
+ 
+-  const onUpdatePressed = async () => { //TODO: implement
+-    
++  const onUpdatePressed = async () => { 
++    const { status } = await updateMessage(walletAddress, newMessage);
++    setStatus(status);
+   };
+ 
+   //the UI of our component
+Index: src/util/interact.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>//export const helloWorldContract;\r\n\r\nexport const loadCurrentMessage = async () => { \r\n  \r\n};\r\n\r\nexport const connectWallet = async () => {\r\n  \r\n};\r\n\r\nexport const getCurrentWalletConnected = async () => {\r\n  \r\n};\r\n\r\nexport const updateMessage = async (address, message) => {\r\n  \r\n};\r\n
+===================================================================
+diff --git a/src/util/interact.js b/src/util/interact.js
+--- a/src/util/interact.js	
++++ b/src/util/interact.js	
+@@ -1,17 +1,144 @@
+-//export const helloWorldContract;
++require('dotenv').config();
++const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
++const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
++const web3 = createAlchemyWeb3(alchemyKey);
++
++const contractABI = require("../contract-abi.json")
++const contractAddress = "0x339e36A17321621B83ba746dB6a09e554Ee26915";
++
++export const helloWorldContract = new web3.eth.Contract(
++    contractABI,
++    contractAddress
++  );
+ 
+ export const loadCurrentMessage = async () => { 
+-  
++    const message = await helloWorldContract.methods.message().call();
++    return message;
+ };
+ 
+ export const connectWallet = async () => {
+-  
++    if (window.ethereum) {
++      try {
++        const addressArray = await window.ethereum.request({
++          method: "eth_requestAccounts",
++        });
++        const obj = {
++          status: "👆🏽 Write a message in the text-field above.",
++          address: addressArray[0],
++        };
++        return obj;
++      } catch (err) {
++        return {
++          address: "",
++          status: "😥 " + err.message,
++        };
++      }
++    } else {
++      return {
++        address: "",
++        status: (
++          <span>
++            <p>
++              {" "}
++              🦊{" "}
++              <a target="_blank" href={`https://metamask.io/download.html`}>
++                You must install Metamask, a virtual Ethereum wallet, in your
++                browser.
++              </a>
++            </p>
++          </span>
++        ),
++      };
++    }
+ };
+ 
+ export const getCurrentWalletConnected = async () => {
+   
++    if (window.ethereum) {
++        try {
++          const addressArray = await window.ethereum.request({
++            method: "eth_accounts",
++          });
++          if (addressArray.length > 0) {
++            return {
++              address: addressArray[0],
++              status: "👆🏽 Write a message in the text-field above.",
++            };
++          } else {
++            return {
++              address: "",
++              status: "🦊 Connect to Metamask using the top right button.",
++            };
++          }
++        } catch (err) {
++          return {
++            address: "",
++            status: "😥 " + err.message,
++          };
++        }
++      } else {
++        return {
++          address: "",
++          status: (
++            <span>
++              <p>
++                {" "}
++                🦊{" "}
++                <a target="_blank" href={`https://metamask.io/download.html`}>
++                  You must install Metamask, a virtual Ethereum wallet, in your
++                  browser.
++                </a>
++              </p>
++            </span>
++          ),
++        };
++      }
+ };
+ 
+ export const updateMessage = async (address, message) => {
+-  
++    
++  //input error handling
++  if (!window.ethereum || address === null) {
++    return {
++      status:
++        "💡 Connect your Metamask wallet to update the message on the blockchain.",
++    };
++  }
++
++  if (message.trim() === "") {
++    return {
++      status: "❌ Your message cannot be an empty string.",
++    };
++  }
++  //set up transaction parameters
++  const transactionParameters = {
++    to: contractAddress, // Required except during contract publications.
++    from: address, // must match user's active address.
++    data: helloWorldContract.methods.update(message).encodeABI(),
++  };
++
++  //sign the transaction
++  try {
++    const txHash = await window.ethereum.request({
++      method: "eth_sendTransaction",
++      params: [transactionParameters],
++    });
++    return {
++      status: (
++        <span>
++          ✅{" "}
++          <a target="_blank" href={`https://ropsten.etherscan.io/tx/${txHash}`}>
++            View the status of your transaction on Etherscan!
++          </a>
++          <br />
++          ℹ️ Once the transaction is verified by the network, the message will
++          be updated automatically.
++        </span>
++      ),
++    };
++  } catch (error) {
++    return {
++      status: "😥 " + error.message,
++    };
++  }
+ };
+Index: package.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"name\": \"hello-world-part-four\",\r\n  \"version\": \"0.1.0\",\r\n  \"private\": true,\r\n  \"dependencies\": {\r\n    \"@testing-library/jest-dom\": \"^5.11.4\",\r\n    \"@testing-library/react\": \"^11.1.0\",\r\n    \"@testing-library/user-event\": \"^12.1.10\",\r\n    \"dotenv\": \"^9.0.0\",\r\n    \"react\": \"^17.0.2\",\r\n    \"react-dom\": \"^17.0.2\",\r\n    \"react-scripts\": \"4.0.3\",\r\n    \"web-vitals\": \"^1.0.1\"\r\n  },\r\n  \"scripts\": {\r\n    \"start\": \"react-scripts start\",\r\n    \"build\": \"react-scripts build\",\r\n    \"test\": \"react-scripts test\",\r\n    \"eject\": \"react-scripts eject\"\r\n  },\r\n  \"eslintConfig\": {\r\n    \"extends\": [\r\n      \"react-app\",\r\n      \"react-app/jest\"\r\n    ]\r\n  },\r\n  \"browserslist\": {\r\n    \"production\": [\r\n      \">0.2%\",\r\n      \"not dead\",\r\n      \"not op_mini all\"\r\n    ],\r\n    \"development\": [\r\n      \"last 1 chrome version\",\r\n      \"last 1 firefox version\",\r\n      \"last 1 safari version\"\r\n    ]\r\n  }\r\n}\r\n
+===================================================================
+diff --git a/package.json b/package.json
+--- a/package.json	
++++ b/package.json	
+@@ -1,18 +1,22 @@
+ {
+   "name": "hello-world-part-four",
+   "version": "0.1.0",
++  "homepage": "https://larrykimutai.github.io/SeniorProject",
+   "private": true,
+   "dependencies": {
++    "@alch/alchemy-web3": "^1.4.6",
+     "@testing-library/jest-dom": "^5.11.4",
+     "@testing-library/react": "^11.1.0",
+     "@testing-library/user-event": "^12.1.10",
+-    "dotenv": "^9.0.0",
++    "dotenv": "^9.0.2",
+     "react": "^17.0.2",
+     "react-dom": "^17.0.2",
+     "react-scripts": "4.0.3",
+     "web-vitals": "^1.0.1"
+   },
+   "scripts": {
++    "predeploy": "npm run build",
++    "deploy": "gh-pages -d build",
+     "start": "react-scripts start",
+     "build": "react-scripts build",
+     "test": "react-scripts test",
+@@ -35,5 +39,8 @@
+       "last 1 firefox version",
+       "last 1 safari version"
+     ]
++  },
++  "devDependencies": {
++    "gh-pages": "^4.0.0"
+   }
+ }

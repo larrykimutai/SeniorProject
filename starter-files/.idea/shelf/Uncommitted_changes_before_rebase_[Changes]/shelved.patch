@@ -1,0 +1,19 @@
+Index: src/HelloWorld.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from \"react\";\r\nimport { useEffect, useState } from \"react\";\r\nimport {\r\n  helloWorldContract,\r\n  connectWallet,\r\n  updateMessage,\r\n  loadCurrentMessage,\r\n  getCurrentWalletConnected,\r\n} from \"./util/interact.js\";\r\n\r\nimport alchemylogo from \"./alchemylogo.svg\";\r\n\r\nconst HelloWorld = () => {\r\n  //state variables\r\n  const [walletAddress, setWallet] = useState(\"\");\r\n  const [status, setStatus] = useState(\"\");\r\n  const [message, setMessage] = useState(\"No connection to the network.\"); //default message\r\n  const [newMessage, setNewMessage] = useState(\"\");\r\n\r\n  //called only once\r\n  useEffect(async () => {\r\n    \r\n  }, []);\r\n\r\n  function addSmartContractListener() { //TODO: implement\r\n    \r\n  }\r\n\r\n  function addWalletListener() { //TODO: implement\r\n    \r\n  }\r\n\r\n  const connectWalletPressed = async () => { //TODO: implement\r\n    \r\n  };\r\n\r\n  const onUpdatePressed = async () => { //TODO: implement\r\n    \r\n  };\r\n\r\n  //the UI of our component\r\n  return (\r\n    <div id=\"container\">\r\n      <img id=\"logo\" src={alchemylogo}></img>\r\n      <button id=\"walletButton\" onClick={connectWalletPressed}>\r\n        {walletAddress.length > 0 ? (\r\n          \"Connected: \" +\r\n          String(walletAddress).substring(0, 6) +\r\n          \"...\" +\r\n          String(walletAddress).substring(38)\r\n        ) : (\r\n          <span>Connect Wallet</span>\r\n        )}\r\n      </button>\r\n\r\n      <h2 style={{ paddingTop: \"50px\" }}>Current Message:</h2>\r\n      <p>{message}</p>\r\n\r\n      <h2 style={{ paddingTop: \"18px\" }}>New Message:</h2>\r\n\r\n      <div>\r\n        <input\r\n          type=\"text\"\r\n          placeholder=\"Update the message in your smart contract.\"\r\n          onChange={(e) => setNewMessage(e.target.value)}\r\n          value={newMessage}\r\n        />\r\n        <p id=\"status\">{status}</p>\r\n\r\n        <button id=\"publish\" onClick={onUpdatePressed}>\r\n          Update\r\n        </button>\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default HelloWorld;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/HelloWorld.js b/src/HelloWorld.js
+--- a/src/HelloWorld.js	(revision 4ae0115780f5ff55137b3b3c04b8638401b87127)
++++ b/src/HelloWorld.js	(date 1662574914678)
+@@ -19,7 +19,7 @@
+ 
+   //called only once
+   useEffect(async () => {
+-    
++
+   }, []);
+ 
+   function addSmartContractListener() { //TODO: implement
